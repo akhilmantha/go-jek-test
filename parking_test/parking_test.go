@@ -8,6 +8,7 @@ import (
 )
 
 const colorSize = 4
+var defaultCapacity = 20;
 
 var testColors []string = []string{
 	"A",
@@ -35,24 +36,26 @@ func genCar() prk.Car {
 }
 
 func testParking(factory prk.ParkingFactory, config prk.ParkingConfig, t *testing.T) {
-  config.Capacity = 2
+  config.Capacity = defaultCapacity
+
   parking, err := factory.New(config)
   if err != nil {
     t.Fatal(err)
   }
   t.Run("test_empty", testParkEmpty(parking))
-  config.Capacity = 2
+
   parking, err = factory.New(config)
   if err != nil {
     t.Fatal(err)
   }
   t.Run("test_park_and_leave", testParkAndLeave(parking))
+
   parking, err = factory.New(config)
   if err != nil {
     t.Fatal(err)
   }
   t.Run("test_query_color", testQueryColor(parking))
-  config.Capacity = 20
+
   parking, err = factory.New(config)
   if err != nil {
     t.Fatal(err)
@@ -117,6 +120,7 @@ func testParkAndLeave(parking prk.Parking) func (t *testing.T) {
 func testQueryColor(parking prk.Parking) func (t *testing.T) {
   return func (t *testing.T) {
     saved := make(map[string][]prk.Slot)
+
     for i := 1; i <= 20; i++ {
       car := genCar()
       slot, err := parking.Park(&car)
@@ -129,6 +133,7 @@ func testQueryColor(parking prk.Parking) func (t *testing.T) {
       }
       saved[car.Color] = append(saved[car.Color], slot)
     }
+
     for k := range saved {
       slots, err := parking.QueryColor(k)
       if err != nil {

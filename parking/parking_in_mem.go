@@ -71,7 +71,25 @@ func (p *parkingInMem) Status() ([]Slot, error) {
 }
 
 func (p *parkingInMem) QueryColor(color string) ([]Slot, error) {
-  return []Slot{}, ErrNotImplemented
+  if _, ok := p.colorIndex[color]; !ok {
+    return []Slot{}, nil
+  }
+  keys := []int{}
+  result := []Slot{}
+  for k := range p.colorIndex[color] {
+    keys = append(keys, k)
+  }
+  sort.Ints(keys)
+  for _, k := range keys {
+    result = append(
+      result,
+      Slot{
+        Idx: k,
+        Car: p.container[k],
+      },
+    )
+  }
+  return result, nil
 }
 
 func (p *parkingInMem) QueryRegistration(reg string) (Slot, error) {
