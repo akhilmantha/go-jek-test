@@ -93,5 +93,12 @@ func (p *parkingInMem) QueryColor(color string) ([]Slot, error) {
 }
 
 func (p *parkingInMem) QueryRegistration(reg string) (Slot, error) {
-  return emptySlot(), ErrNotImplemented
+  if _, ok := p.regIndex[reg]; ! ok {
+    return emptySlot(), ErrNotFound
+  }
+  idx, _ := p.regIndex[reg]
+  return Slot{
+    Idx: idx,
+    Car: p.container[idx],
+  }, nil
 }

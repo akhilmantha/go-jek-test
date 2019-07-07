@@ -61,6 +61,12 @@ func testParking(factory prk.ParkingFactory, config prk.ParkingConfig, t *testin
     t.Fatal(err)
   }
   t.Run("test_status", testStatus(parking))
+
+  parking, err = factory.New(config)
+  if err != nil {
+    t.Fatal(err)
+  }
+  t.Run("test_query_registration", testQueryRegistration(parking))
 }
 
 func testParkEmpty(parking prk.Parking) func (t *testing.T) {
@@ -74,6 +80,34 @@ func testParkEmpty(parking prk.Parking) func (t *testing.T) {
     if slot.Idx != 1 {
       t.Log("initial slot should be 1")
       t.Fail()
+    }
+  }
+}
+
+func testQueryRegistration(parking prk.Parking) func (t *testing.T) {
+  return func (t *testing.T) {
+    saved := make(map[string]prk.Slot)
+    for i := 1; i <= defaultCapacity; i++ {
+      car := genCar()
+      slot, err := parking.Park(&car)
+      if err != nil {
+        t.Log(err)
+        t.FailNow()
+      }
+      saved[car.Registration] = slot
+    }
+    for k := range saved {
+      slot, err := parking.QueryRegistration(k)
+      if err != nil {
+        t.Log(err)
+        t.FailNow()
+      }
+      if slot.Idx != saved[k].Idx {
+        t.FailNow()
+      }
+      if slot.Car.Registration != saved[k].Car.Registration {
+        t.FailNow()
+      }
     }
   }
 }
