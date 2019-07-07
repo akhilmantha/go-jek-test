@@ -1,9 +1,14 @@
 package parking
 
+import (
+  "sort"
+//  "log"
+)
+
 type parkingInMem struct {
   capacity int
   heap *parkingHeap
-  container map[int]Slot
+  container map[int]*Car
   colorIndex map[string](map[int]bool)
   regIndex map[string]int
 }
@@ -26,16 +31,43 @@ func (p *parkingInMem) Park(car *Car) (Slot, error) {
   }
   (p.colorIndex[car.Color])[next] = true
   p.regIndex[car.Registration] = next
-  p.container[next] = slot;
+  p.container[next] = car;
   return slot, nil
 }
 
 func (p *parkingInMem) Leave(idx int) error {
-  return ErrNotImplemented
+  if idx == 0 || idx > p.capacity {
+    return ErrBadSlot
+  }
+  car, ok := p.container[idx]
+  if !ok {
+    return ErrEmptySlot
+  }
+  delete(p.regIndex, car.Registration)
+  delete(p.colorIndex[car.Color], idx)
+  delete(p.container, idx)
+  p.heap.Push(idx)
+  return nil
 }
 
 func (p *parkingInMem) Status() ([]Slot, error) {
-  return []Slot{}, ErrNotImplemented
+  result := []Slot{}
+  // Order of iteration of a map is now randomized
+  // so order of keys must be manually tracked
+  keys := make([]int, len(p.container))
+  i := 0
+  for k := range p.container {
+    keys[i] = k
+    i++
+  }
+  sort.Ints(keys)
+  for _, k := range keys {
+    result = append(result, Slot{
+      Idx: k,
+      Car: p.container[k],
+    })
+  }
+  return result, nil
 }
 
 func (p *parkingInMem) QueryColor(color string) ([]Slot, error) {

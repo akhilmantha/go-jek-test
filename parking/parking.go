@@ -23,7 +23,7 @@ func (p *ParkingInMemFactory) New(config ParkingConfig) (Parking, error) {
   return &parkingInMem{
     capacity: config.Capacity,
     heap: newParkingHeap(config.Capacity),
-    container: make(map[int]Slot),
+    container: make(map[int]*Car),
     colorIndex: make(map[string](map[int]bool)),
     regIndex: make(map[string]int),
   }, nil
