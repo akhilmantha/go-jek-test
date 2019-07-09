@@ -3,7 +3,7 @@ package api
 import (
   "strings"
   "strconv"
-  "log"
+  // "log"
 )
 
 const defaultSeparator = " "
@@ -29,7 +29,7 @@ func parse(input string) (Command, error) {
       },
     ), nil
   case ParkCommand:
-    log.Printf("tokens: %v\n",tokens)
+    // log.Printf("tokens: %v\n",tokens)
     if len(tokens) < 3 {
       return newCommand(ParkCommand, []interface{}{}), ErrParseMissingArgs
     }
