@@ -5,3 +5,5 @@
 #
 # After this is run, bin/parking_lot
 # should Just Work.
+
+make build

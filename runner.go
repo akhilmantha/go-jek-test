@@ -30,7 +30,7 @@ func (r *Runner) Run() error {
       if err != nil {
         return err
       }
-      fmt.Printf("Created parking lot with %d slots\n", r.config.Capacity)
+      fmt.Printf("Created a parking lot with %d slots\n", r.config.Capacity)
     case api.ParkCommand:
       registration, color := cmd.Args[0].(string), cmd.Args[1].(string)
       car := prk.Car {
@@ -70,8 +70,9 @@ func (r *Runner) Run() error {
         fmt.Printf("Not Found\n")
         continue
       }
-      w := new(tabwriter.Writer)
-      w.Init(os.Stdout, 0, 8, 0, '\t', 0)
+       w := new(tabwriter.Writer)
+      // w := os.Stdout
+       w.Init(os.Stdout, 0, 8, 0, '\t', 0)
       fmt.Fprintf(w, "Slot No.\tRegistration No\tColour")
       for _, slot := range slots {
         fmt.Fprintf(
@@ -82,7 +83,7 @@ func (r *Runner) Run() error {
           slot.Car.Color,
         )
       }
-      w.Flush()
+       w.Flush()
       fmt.Printf("\n")
     case api.QueryColorRegistrationCommand:
       slots, err := r.parking.QueryColor(cmd.Args[0].(string))
