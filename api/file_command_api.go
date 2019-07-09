@@ -21,6 +21,9 @@ func (f *FileCommandApi) Start() error {
       close(f.out)
       return err
     }
+    if cmd.Cmd == ExitCommand {
+      break
+    }
     f.out <- cmd
   }
   select {

@@ -8,4 +8,5 @@ const (
   QueryColorRegistrationCommand = "registration_numbers_for_cars_with_colour"
   QueryColorSlotCommand = "slot_numbers_for_cars_with_colour"
   QueryRegistrationSlotCommand = "slot_number_for_registration_number"
+  ExitCommand = "exit"
 )
