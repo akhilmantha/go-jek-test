@@ -41,7 +41,7 @@ func (p *parkingInMem) Leave(idx int) error {
   }
   car, ok := p.container[idx]
   if !ok {
-    return ErrEmptySlot
+    return ErrNotFound
   }
   delete(p.regIndex, car.Registration)
   delete(p.colorIndex[car.Color], idx)

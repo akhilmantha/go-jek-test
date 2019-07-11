@@ -55,7 +55,7 @@ func (r *Runner) Run() error {
           continue
         }
         if err == prk.ErrNotFound {
-          fmt.Printf("Not Found\n")
+          fmt.Printf("Not found\n")
           continue
         }
         return err
@@ -67,31 +67,29 @@ func (r *Runner) Run() error {
         return err
       }
       if len(slots) == 0 {
-        fmt.Printf("Not Found\n")
+        fmt.Printf("Not found\n")
         continue
       }
-       w := new(tabwriter.Writer)
-      // w := os.Stdout
-       w.Init(os.Stdout, 0, 8, 0, '\t', 0)
-      fmt.Fprintf(w, "Slot No.\tRegistration No\tColour")
+      w := new(tabwriter.Writer)
+      w.Init(os.Stdout, 0, 0, 4, ' ', 0)
+      fmt.Fprintf(w, "Slot No.\tRegistration No\tColour\n")
       for _, slot := range slots {
         fmt.Fprintf(
           w,
-          "\n%d\t%s\t%s",
+          "%d\t%s\t%s\n",
           slot.Idx,
           slot.Car.Registration,
           slot.Car.Color,
         )
       }
-       w.Flush()
-      fmt.Printf("\n")
+      w.Flush()
     case api.QueryColorRegistrationCommand:
       slots, err := r.parking.QueryColor(cmd.Args[0].(string))
       if err != nil {
         return err
       }
       if len(slots) == 0 {
-        fmt.Printf("Not Found\n")
+        fmt.Printf("Not found\n")
         continue
       }
       first := true
@@ -110,7 +108,7 @@ func (r *Runner) Run() error {
         return err
       }
       if len(slots) == 0 {
-        fmt.Printf("Not Found\n")
+        fmt.Printf("Not found\n")
         continue
       }
       first := true
@@ -127,7 +125,7 @@ func (r *Runner) Run() error {
       slot, err := r.parking.QueryRegistration(cmd.Args[0].(string))
       if err != nil {
         if err == prk.ErrNotFound {
-          fmt.Printf("Not Found\n")
+          fmt.Printf("Not found\n")
           continue
         }
         return err
