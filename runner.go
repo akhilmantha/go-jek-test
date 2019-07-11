@@ -8,6 +8,11 @@ import (
   "os"
 )
 
+/*
+Runner accepts an instance of CommandApi, ParkingFactory,
+and ParkingConfig, and runs the parsed commands against
+instances of Parking created using the factory.
+*/
 type Runner struct {
   api api.CommandApi
   parkingFactory prk.ParkingFactory
@@ -25,12 +30,12 @@ func (r *Runner) Run() error {
     case api.ExitCommand:
       return nil
     case api.CreateParkingCommand:
-      r.config.Capacity = cmd.Args[0].(int)
+      r.config.SetCapacity(cmd.Args[0].(int))
       r.parking, err = r.parkingFactory.New(r.config)
       if err != nil {
         return err
       }
-      fmt.Printf("Created a parking lot with %d slots\n", r.config.Capacity)
+      fmt.Printf("Created a parking lot with %d slots\n", r.config.Capacity())
     case api.ParkCommand:
       registration, color := cmd.Args[0].(string), cmd.Args[1].(string)
       car := prk.Car {

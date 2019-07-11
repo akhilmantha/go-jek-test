@@ -7,6 +7,10 @@ import (
   "strings"
 )
 
+/*
+FileCommandApi reads commands from a given file.
+Stdin can also be used as input.
+*/
 type FileCommandApi struct {
   out chan Command
   reader io.Reader
@@ -34,7 +38,7 @@ func (f *FileCommandApi) Start() error {
   return nil
 }
 
-func (f *FileCommandApi) Chan() (chan Command, error) {
+func (f *FileCommandApi) Chan() (<-chan Command, error) {
   return f.out, nil
 }
 

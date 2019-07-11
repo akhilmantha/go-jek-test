@@ -17,7 +17,7 @@ func main() {
       log.Fatal(err)
     }
   }
-  config := prk.ParkingConfig{}
+  config := &prk.BaseParkingConfig{}
   go input.Start()
   (&Runner{
     api: input,

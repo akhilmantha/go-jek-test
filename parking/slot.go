@@ -1,5 +1,8 @@
 package parking
 
+/*
+Slot describes a parking slot
+*/
 type Slot struct {
   Idx int
   Car *Car

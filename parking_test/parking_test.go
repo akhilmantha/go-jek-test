@@ -36,7 +36,7 @@ func genCar() prk.Car {
 }
 
 func testParking(factory prk.ParkingFactory, config prk.ParkingConfig, t *testing.T) {
-  config.Capacity = defaultCapacity
+  config.SetCapacity(defaultCapacity)
 
   parking, err := factory.New(config)
   if err != nil {
@@ -226,6 +226,6 @@ func testStatus(parking prk.Parking) func (t *testing.T) {
 }
 
 func TestParkingInMem(t* testing.T) {
-  config := prk.ParkingConfig{}
+  config := &prk.BaseParkingConfig{}
   testParking(&prk.ParkingInMemFactory{}, config, t)
 }
