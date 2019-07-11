@@ -58,8 +58,12 @@ Project is made up of following main components :
   Instead of writing commands manually you can execute them from a bash script or a makefile.
   You can keep all your common tasks together at makefile.
 
-## Build
+##5. Runner :
 
+Runner accepts an instance of CommandApi, ParkingFactory, and ParkingConfig, and runs the parsed commands against
+instances of Parking created using the factory.
+
+## Build
 
 Navigate to 'parking_lot' directory
 ```
