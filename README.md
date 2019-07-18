@@ -90,6 +90,10 @@ I also implemented a hook where to commit, your tests need to pass.
 parking_lot$ ./bin/run_functional_tests
 ```
 
+##Imporovements in Tests
+
+   - Tests for runner.go
+   - Tests for main.go 
 
 ## Features :
 
